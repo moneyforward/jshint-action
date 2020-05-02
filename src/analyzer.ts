@@ -9,11 +9,11 @@ export default class Analyzer extends StaticCodeAnalyzer {
     super('npx', ['jshint'].concat(options).concat(['--reporter', 'unix', '--verbose']), undefined, 3, undefined, 'JSHint', exitStatus => exitStatus === 0 || exitStatus === 2);
   }
 
-  async prepare(): Promise<unknown> {
+  protected async prepare(): Promise<unknown> {
     return Promise.resolve();
   }
 
-  createTransformStreams(): Transformers {
+  protected createTransformStreams(): Transformers {
     const transformers = [
       new tool.LineTransformStream(),
       new stream.Transform({
