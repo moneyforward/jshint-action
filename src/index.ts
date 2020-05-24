@@ -1,11 +1,14 @@
 import stream from 'stream';
 import util from 'util';
-import StaticCodeAnalyzer, { AnalyzerConstructorParameter } from '@moneyforward/sca-action-core';
+import { analyzer } from '@moneyforward/code-review-action';
+import StaticCodeAnalyzer from '@moneyforward/sca-action-core';
 import { transform } from '@moneyforward/stream-util';
+
+type AnalyzerConstructorParameter = analyzer.AnalyzerConstructorParameter;
 
 const debug = util.debuglog('@moneyforward/code-review-action-jshint-plugin');
 
-export default class Analyzer extends StaticCodeAnalyzer {
+export default abstract class Analyzer extends StaticCodeAnalyzer {
   constructor(...args: AnalyzerConstructorParameter[]) {
     super('npx', ['jshint'].concat(args.map(String)).concat(['--reporter', 'unix', '--verbose']), undefined, exitStatus => exitStatus === 0 || exitStatus === 2, undefined, 'JSHint');
   }
